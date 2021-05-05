@@ -1,13 +1,13 @@
 <div id="app">
   <div id="tabela_de_aulas">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Cadastro de Aulas</a>
+      <a class="navbar-brand" href="#">Tabelas de Aulas</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active" href="#">Tela <span class="sr-only">(current)</span></a>
+          <a class="nav-link active" href="#">Tabela<span class="sr-only">(current)</span></a>
         </div>
       </div>
       <div class="d-flex">
@@ -92,15 +92,15 @@
             </div>
             <div class="col-md-2">
               <label>Nome: </label>
-              <input type="text" class="form-control" placeholder="Nome Completo" name="nameAluno0" id="nameAluno0">
+              <input type="text" class="form-control is-valid" placeholder="Nome Completo" name="nameAluno0" id="nameAluno0">
             </div>
             <div class="col-md-2">
               <label>CPF:</label>
-              <input type="number" class="form-control" placeholder="CPF" name="cpfAluno0" id="cpfAluno0">
+              <input type="number" class="form-control is-valid" placeholder="CPF" name="cpfAluno0" id="cpfAluno0">
             </div>
             <div class="col-md-2">
               <label> Endereço: </label>
-              <input type="text" class="form-control" placeholder="Endereço" name="enderecoAluno0" id="enderecoAluno0">
+              <input type="text" class="form-control is-valid" placeholder="Endereço" name="enderecoAluno0" id="enderecoAluno0">
             </div>
             <div class="col-md-2">
               <label> Telefone: </label>
@@ -191,34 +191,61 @@
     </form>
   </nav>
 
-  <div class="card-body container">
+  <form class="container needs-validation">
     <div class="form-group row mt-3">
       <label class="col-md-1 col-form-label text-md-right">Nome: </label>
       <div class="col-md-5">
-        <input type="text" class="form-control" placeholder="Nome" name="nomeProf" id="nomeProf" required>
+        <input type="text" class="form-control is-valid" placeholder="Nome" name="nomeProf" id="nomeProf" required>
       </div>
       <label class="col-md-1 col-form-label text-md-right">CPF: </label>
-      <div class="col-md-5">
-        <input type="number" class="form-control" placeholder="CPF" name="cpfProf" id="cpfProf" required>
+      <div class="col-md-3">
+        <input type="number" class="form-control is-valid" placeholder="CPF" name="cpfProf" id="cpfProf" required>
       </div>
     </div>
     <div class="form-group row mt-3">
       <label class="col-md-1 col-form-label text-md-right">Email: </label>
       <div class="col-md-5">
-        <input type="email" class="form-control" placeholder="Email" name="emailProf" id="emailProf" required>
+        <input type="email" class="form-control is-valid" placeholder="Email" name="emailProf" id="emailProf" required>
       </div>
       <label class="col-md-1 col-form-label text-md-right">Telefone: </label>
-      <div class="col-md-5">
-        <input type="text" class="form-control" placeholder="Telefone" name="telefoneProf" id="telefoneProf" >
+      <div class="col-md-3">
+        <input type="text" class="form-control is-valid" placeholder="Telefone" name="telefoneProf" id="telefoneProf" >
       </div>
     </div>
     <div class="form-group row mt-3">
       <label class="col-md-1 col-form-label text-md-right">Endereço: </label>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <input type="text" class="form-control" placeholder="Endereço" name="enderecoProf" id="enderecoProf">
       </div>
     </div>
-  </div>
+    <div class="form-group row mt-3">
+      <label class="col-md-0 col-form-label text-md-right">Especialização: </label>
+      <div class="col-md-7">
+        <input type="text" class="form-control is-valid" placeholder="Especialização" name="EspecializacaoProf" id="EspecializacaoProf">
+      </div>
+    </div>
+  </form>
+
+  <script>
+    // Exemplo de JavaScript inicial para desativar envios de formulário, se houver campos inválidos.
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Pega todos os formulários que nós queremos aplicar estilos de validação Bootstrap personalizados.
+    var forms = document.getElementsByClassName('needs-validation');
+    // Faz um loop neles e evita o envio
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+  </script>
 </div>
 </div>
 </div>

@@ -11,6 +11,7 @@ import "./js/bootstrap.js";
 
   var count = 2;
   var click = 1;
+  var qtd = 0;
 
   var cadastroaula = function() {
     tabela.style.display = "none";
@@ -47,9 +48,11 @@ import "./js/bootstrap.js";
 
     vetorDisciplina.push(nome.value);
 
-    for (var i = 0; i < vetorDisciplina.length; i++) {
+    var i = 0;
+    while (i < vetorDisciplina.length) {
       var option = new Option(vetorDisciplina[i], vetorDisciplina[i]);
       selecioneDisciplina.add(option);
+      i++;
     }
 
     cadastrarDisc.style.display = "none";
@@ -65,15 +68,24 @@ import "./js/bootstrap.js";
     var email = document.getElementById("emailProf");
     var telefone = document.getElementById("telefoneProf");
     var endereco = document.getElementById("enderecoProf");
+    var especializacao = document.getElementById("EspecializacaoProf");
     var selecioneProfessor = document.getElementById("professor");
 
     var vetorProfessor = [];
+    var vetorCpf = [];
 
     vetorProfessor.push(nome.value);
+    vetorCpf.push(cpf.value);
 
-    for (var i = 0; i < vetorProfessor.length; i++) {
-      var opcao = new Option(vetorProfessor[i], vetorProfessor[i]);
-      selecioneProfessor.add(opcao);
+    if (testarCpf(cpf.value)) {
+      var i = 0;
+      while (i < vetorProfessor.length) {
+        var opcao = new Option(vetorProfessor[i], vetorProfessor[i]);
+        selecioneProfessor.add(opcao);
+        i++;
+      }
+    } else {
+      alert("CPF não Valido");
     }
 
     cadastrarProf.style.display = "none";
@@ -84,7 +96,30 @@ import "./js/bootstrap.js";
     email.value = null;
     telefone.value = null;
     endereco.value = null;
+    especializacao.value = null;
   };
+
+  function testarCpf(strcpf) {
+    var soma = 0;
+    var resto;
+
+    if (strcpf == "00000000000") return false;
+
+    for (var i = 1; i <= 9; i++) {
+      soma = soma + parseInt(strcpf.substring(i - 1, i)) * (11 - i);
+    }
+    resto = (soma * 10) % 11;
+    if (resto == 10 || resto == 11) resto = 0;
+    if (resto != parseInt(strcpf.substring(9, 10))) return false;
+    soma = 0;
+    for (var i = 1; i <= 10; i++) {
+      soma = soma + parseInt(strcpf.substring(i - 1, i)) * (12 - i);
+    }
+    resto = (soma * 10) % 11;
+    if (resto == 10 || resto == 11) resto = 0;
+    if (resto != parseInt(strcpf.substring(10, 11))) return false;
+    return true;
+  }
 
   var adicionarAluno = function() {
     var tabeladosalunos = document.getElementById("alunosTabela");
@@ -92,64 +127,69 @@ import "./js/bootstrap.js";
 
     count = count + 1;
 
-    tabeladosalunos.appendChild(elementosDiv);
-    elementosDiv.innerHTML =
-      `<div class="row">
+    if (qtd < 13) {
+      tabeladosalunos.appendChild(elementosDiv);
+      elementosDiv.innerHTML =
+        `<<div class="row" id="` +
+        (count - 1) +
+        `">
                     <div class="col-md-1">
                       <label>Id:</label>
                       <input type="number" class="form-control" placeholder="Id" name="idAluno` +
-      (count - 1) +
-      `" id="idAluno` +
-      (count - 1) +
-      `" value="` +
-      count +
-      `">
+        (count - 1) +
+        `" id="idAluno` +
+        (count - 1) +
+        `" value="` +
+        count +
+        `">
                     </div>
                     <div class="col-md-2">
                       <label>Nome: </label>
                       <input type="text" class="form-control" placeholder="Nome Completo" name="nameAluno` +
-      (count - 1) +
-      `" id="nameAluno` +
-      (count - 1) +
-      `">
+        (count - 1) +
+        `" id="nameAluno` +
+        (count - 1) +
+        `">
                     </div>
                     <div class="col-md-2">
                       <label>CPF:</label>
                       <input type="number" class="form-control" placeholder="CPF" name="cpfAluno` +
-      (count - 1) +
-      `" id="cpfAluno` +
-      (count - 1) +
-      `">
+        (count - 1) +
+        `" id="cpfAluno` +
+        (count - 1) +
+        `">
                     </div>
                     <div class="col-md-2">
                       <label> Endereço: </label>
                       <input type="text" class="form-control" placeholder="Endereço" name="enderecoAluno` +
-      (count - 1) +
-      `" id="enderecoAluno` +
-      (count - 1) +
-      `">
+        (count - 1) +
+        `" id="enderecoAluno` +
+        (count - 1) +
+        `">
                     </div>
                     <div class="col-md-2">
                       <label> Telefone: </label>
                       <input type="number" class="form-control" placeholder="Telefone" name="telefoneAluno` +
-      (count - 1) +
-      `" id="telefoneAluno` +
-      (count - 1) +
-      `">
+        (count - 1) +
+        `" id="telefoneAluno` +
+        (count - 1) +
+        `">
                     </div>
                     <div class="col-md-2">
                       <label> Email: </label>
                       <input type="email" class="form-control" placeholder="email" name="emailAluno` +
-      (count - 1) +
-      `" id="emailAluno` +
-      (count - 1) +
-      `">
+        (count - 1) +
+        `" id="emailAluno` +
+        (count - 1) +
+        `">
                     </div>
                   </div>`;
+      qtd++;
+    }
   };
 
   var cadastroDeAulas = function() {
-    var tabelaDados = [];
+    var dadosDaTabela = [];
     var dados = [];
     var disciplina = document.getElementById("disciplina");
     var professor = document.getElementById("professor");
@@ -160,50 +200,57 @@ import "./js/bootstrap.js";
     disciplina.value = "selected";
     professor.value = "selected";
 
-    for (var i = 0; i < count; i++) {
+    var i = 0;
+    while (i < count) {
       var name = document.getElementById("nameAluno" + i);
       var cpf = document.getElementById("cpfAluno" + i);
       var endereco = document.getElementById("enderecoAluno" + i);
       var telefone = document.getElementById("telefoneAluno" + i);
       var email = document.getElementById("emailAluno" + i);
 
-      dados.push(name.value);
-
+      if (testarCpf(cpf.value)) {
+        dados.push(name.value);
+      } else {
+        alert("CPF não Valido");
+      }
       name.value = null;
       cpf.value = null;
       endereco.value = null;
       telefone.value = null;
       email.value = null;
+      i++;
     }
 
-    tabelaDados.push(dados);
+    dadosDaTabela.push(dados);
 
-    var professorTabela = null;
-    var disciplinaTabela = null;
-    var alunosTabela = [];
+    var tabelaProfessor = null;
+    var tabelaDisciplina = null;
+    var tabelaAlunos = [];
 
-    disciplinaTabela = tabelaDados[0][0];
-    professorTabela = tabelaDados[0][1];
+    tabelaDisciplina = dadosDaTabela[0][0];
+    tabelaProfessor = dadosDaTabela[0][1];
 
-    for (var k = 0; k < count; k++) {
-      alunosTabela.push(tabelaDados[0][k + 2]);
+    var k = 0;
+    while (k < count) {
+      tabelaAlunos.push(dadosDaTabela[0][k + 2]);
+      k++;
     }
 
-    var trNova = document.createElement("tr");
-    tabelaAula.appendChild(trNova);
-    trNova.innerHTML =
+    var novaTabela = document.createElement("tr");
+    tabelaAula.appendChild(novaTabela);
+    novaTabela.innerHTML =
       "<tr>" +
       "<td>" +
       click +
       "</td>" +
       "<td>" +
-      professorTabela +
+      tabelaProfessor +
       "</td>" +
       "<td>" +
-      disciplinaTabela +
+      tabelaDisciplina +
       "</td>" +
       "<td>" +
-      alunosTabela +
+      tabelaAlunos +
       "</td>" +
       "</tr>";
 
